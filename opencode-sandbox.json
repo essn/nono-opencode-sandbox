@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "name": "opencode-sandbox"
+  },
+  "extends": "nolabs-ai/opencode",
+  "filesystem": {
+    "allow": [
+      "$WORKDIR",
+      "$HOME/.local/share/opencode",
+      "$HOME/.local/state/opencode",
+      "$HOME/.cache/opencode",
+      "$HOME/.config/opencode"
+    ],
+    "read": [
+      "/etc/profile.d"
+    ],
+    "read_file": [
+      "/etc/profile",
+      "/etc/bash.bashrc",
+      "/etc/environment",
+      "$HOME/.profile",
+      "$HOME/.bashrc",
+      "$HOME/.bash_profile"
+    ],
+    "bypass_protection": [
+      "$HOME/.profile",
+      "$HOME/.bashrc"
+    ]
+  },
+  "network": {
+    "network_profile": "minimal",
+    "allow_domain": [
+      "models.dev"
+    ],
+    "deny_domain": [],
+    "allow_http2": false,
+    "credentials": [
+      "openrouter"
+    ],
+    "custom_credentials": {
+      "openrouter": {
+        "upstream": "https://openrouter.ai/api/v1",
+        "credential_key": "file:///run/secrets/openrouter_key",
+        "env_var": "OPENROUTER_API_KEY",
+        "inject_header": "Authorization",
+        "credential_format": "Bearer {}"
+      }
+    }
+  },
+  "rollback": {
+    "exclude_patterns": [
+      "node_modules",
+      ".next",
+      "__pycache__",
+      "target",
+      ".venv"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+services:
+  agent:
+    build: .
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    volumes:
+      # Mount ONLY the project, never $HOME.
+      - ${PROJECT_DIR:-./project}:/workspace
+      # Rollback snapshots persist across runs (named volume = fast on OrbStack).
+      - nono-state:/home/agent/.local/state/nono
+      # OpenCode sessions/data persist across runs.
+      - opencode-data:/home/agent/.local/share/opencode
+    secrets:
+      - openrouter_key # appears at /run/secrets/openrouter_key, NOT in the env
+    command:
+      - nono
+      - run
+      - --profile
+      - opencode-sandbox
+      - --credential
+      - openrouter
+      - --
+      - opencode
+
+secrets:
+  openrouter_key:
+    environment: OPENROUTER_API_KEY # read from the shell that runs `docker compose`
+
+volumes:
+  nono-state:
+  opencode-data:
