@@ -29,9 +29,7 @@
   },
   "network": {
     "network_profile": "minimal",
-    "allow_domain": [
-      "models.dev"
-    ],
+    "allow_domain": [],
     "deny_domain": [],
     "allow_http2": false,
     "credentials": [
