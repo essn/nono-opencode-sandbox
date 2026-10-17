@@ -23,8 +23,8 @@ RUN useradd -m -s /bin/bash agent \
   /home/agent/.cache/opencode /home/agent/.config/opencode \
   && chown -R agent:agent /home/agent /workspace
 
-COPY --chown=agent:agent opencode-sandbox.json /home/agent/.config/nono/profiles/opencode-sandbox.json
-COPY --chown=agent:agent opencode.json /home/agent/.config/opencode/opencode.json
+COPY --chown=agent:agent opencode-sandbox.jsonc /home/agent/.config/nono/profiles/opencode-sandbox.jsonc
+COPY --chown=agent:agent opencode.jsonc /home/agent/.config/opencode/opencode.jsonc
 
 USER agent
 RUN nono pull nolabs-ai/opencode
