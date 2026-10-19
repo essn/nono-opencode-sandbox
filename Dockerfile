@@ -14,8 +14,9 @@ RUN curl -fsSL https://nono.sh/install.sh | sh \
   done \
   && nono --version
 
-# OpenCode (verify package name against current OpenCode docs)
-RUN npm i -g opencode-ai
+# OpenCode (verify package name against current OpenCode docs) and remove npm cache
+RUN npm i -g opencode-ai \
+  && rm -rf /tmp/node-compile-cache
 
 RUN useradd -m -s /bin/bash agent \
   && mkdir -p /home/agent/.local/state/nono /home/agent/.config/nono/profiles /workspace \
@@ -27,5 +28,8 @@ COPY --chown=agent:agent opencode-sandbox.jsonc /home/agent/.config/nono/profile
 COPY --chown=agent:agent opencode.jsonc /home/agent/.config/opencode/opencode.jsonc
 
 USER agent
+# Any new npm compilations are owned by agent
+ENV NODE_COMPILE_CACHE=/home/agent/.cache/node-compile
+
 RUN nono pull nolabs-ai/opencode
 WORKDIR /workspace
